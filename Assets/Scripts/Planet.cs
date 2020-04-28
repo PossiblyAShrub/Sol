@@ -18,6 +18,8 @@ public class Planet : MonoBehaviour
     public float eStep;
     public float MStep;
 
+    public float size;
+
     public Vector3 GetHelioPos(float d)
     {
         N += NStep * d;
@@ -77,6 +79,13 @@ public class Planet : MonoBehaviour
     }
 
     public float d = 0;
+
+    private void Start()
+    {
+        a *= 149.598f;
+        size *= 0.001f;
+        this.transform.localScale = new Vector3(size, size, size);
+    }
 
     private void LateUpdate()
     {
