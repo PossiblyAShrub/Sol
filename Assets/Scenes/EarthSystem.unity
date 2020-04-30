@@ -243,13 +243,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 266ae2ee9ba256c43908c8031e068c62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  a: 0
+  a: 9
   e: 0
-  i: 0
+  i: 30
   N: 0
   w: 0
   T: 0
   EApproxLvl: 0
+  time: 0
 --- !u!135 &1539608707
 SphereCollider:
   m_ObjectHideFlags: 0
