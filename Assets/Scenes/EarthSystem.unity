@@ -240,23 +240,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 1539608705}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d61a9c662397906418a332354b854c55, type: 3}
+  m_Script: {fileID: 11500000, guid: 266ae2ee9ba256c43908c8031e068c62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  N: 0
-  i: 0
-  w: 0
   a: 0
   e: 0
-  M: 0
-  NStep: 0
-  iStep: 0
-  wStep: 0
-  aStep: 0
-  eStep: 0
-  MStep: 0
-  size: 2
-  d: 0
+  i: 0
+  N: 0
+  w: 0
+  T: 0
+  EApproxLvl: 0
 --- !u!135 &1539608707
 SphereCollider:
   m_ObjectHideFlags: 0

@@ -41,13 +41,13 @@ public class Planet : MonoBehaviour
         float r = Mathf.Sqrt(Mathf.Pow(planeX, 2) + Mathf.Pow(planeY, 2));
         float v = Mathf.Atan2(planeY, planeX);
 
-        // float x = r * (Cos(N) * Cos(v + w) - Sin(N) * Sin(v + w) * Cos(i));
-        // float y = r * (Sin(N) * Cos(v + w) + Cos(N) * Sin(v + w) * Cos(i));
-        // float z = r * Sin(v + w) * Sin(i);
+        float x = r * (Cos(N) * Cos(M + w) - Sin(N) * Sin(M + w) * Cos(i));
+        float y = r * (Sin(N) * Cos(M + w) + Cos(N) * Sin(M + w) * Cos(i));
+        float z = r * Sin(v + w) * Sin(i);
 
-        float x = r * Cos(M) * Cos(i);
-        float y = r * Sin(M) * Cos(i);
-        float z = r * Sin(M);
+        //float x = r * Cos(M) * Cos(i);
+        //float y = r * Sin(M) * Cos(i);
+        //float z = r * Sin(M);
 
         return new Vector3(x, z, y);
     }
