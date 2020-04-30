@@ -54,17 +54,20 @@ public class Orbit : MonoBehaviour
     // <summary>
     public Vector3 EvalPosition(float t)
     {
+        // calculate anomalies
         float M = this.M(t);
         float E = this.E(M, EApproxLvl);
         float v = this.v(E);
 
+        // calculate distance from primary
         float r = a * ((1 - Mathf.Pow(e, 2)) / 1 + e * Mathf.Cos(v));
 
+        // convert into rectangular coords.
         float x = r * (Cos(N) * Cos(w + v) - Sin(N) * Cos(i) * Sin(w + v));
         float y = r * (Sin(N) * Cos(w + v) + Cos(N) * Cos(i) * Sin(w + v));
         float z = r * Sin(i) * Sin(w + v);
 
-        return new Vector3(x, z, y);
+        return new Vector3(x, z, y); // x, y, z vars are in diff. order to correct for unity's axis rotation
     }
 
     public float Sin(float n)
