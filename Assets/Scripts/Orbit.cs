@@ -17,6 +17,7 @@ public class Orbit : MonoBehaviour
     //     Ranges from 0 to 1 for a circular to elliptical orbit, 
     //     and 1 to infinity for hyperbolic/parabolic orbits.
     // <summary>
+    [Range(0, 1)]
     public float e;
 
     public float i; // inclination
@@ -130,11 +131,12 @@ public class Orbit : MonoBehaviour
     }
 
     public float time = 0;
+    public float timeStep = 0.000001f;
 
     private void FixedUpdate()
     {
         this.transform.position = EvalPosition(time);
-        time += 0.000001f;
+        time += timeStep;
     }
 
 
