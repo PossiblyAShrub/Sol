@@ -249,7 +249,7 @@ MonoBehaviour:
   N: 0
   w: 0
   T: 0
-  EApproxLvl: 0
+  EApproxLvl: 1
   time: 0
 --- !u!135 &1539608707
 SphereCollider:

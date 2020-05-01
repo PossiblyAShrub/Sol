@@ -57,15 +57,25 @@ public class Orbit : MonoBehaviour
         // calculate anomalies
         float M = this.M(t);
         float E = this.E(M, EApproxLvl);
-        float v = this.v(E) * Mathf.Rad2Deg;
 
-        // calculate distance from primary
-        float r = a * ((1 - Mathf.Pow(e, 2)) / 1 + e * Mathf.Cos(v));
+        // semi - minor axis
+        float b = Mathf.Sqrt(((1 + e) * a) * ((1 - e) * a));
 
-        // convert into rectangular coords.
-        float x = r * (CosD(N) * CosD(w + v) - SinD(N) * CosD(i) * SinD(w + v));
-        float y = r * (SinD(N) * CosD(w + v) + CosD(N) * CosD(i) * SinD(w + v));
-        float z = r * SinD(i) * SinD(w + v);
+        // adjust for w
+        E += w * Mathf.Deg2Rad;
+
+        // planear coords
+        float x = a * Cos(E);
+        float y = b * Sin(E);
+
+        // apply inclination rotation (also creates z data)
+        x = x * CosD(i);
+        y = y * CosD(i);
+        float z = x * SinD(i);
+
+        // apply longitude of the ascending node rotation (no new z axis data)
+        x = (x * CosD(N)) - (y * SinD(N));
+        y = (x * SinD(N)) + (y * CosD(N));
 
         return new Vector3(x, z, y); // x, y, z vars are in diff. order to correct for unity's axis rotation
     }
@@ -90,11 +100,6 @@ public class Orbit : MonoBehaviour
         return Mathf.Cos(n * Mathf.Deg2Rad);
     }
 
-    public float v(float E)
-    {
-        return Mathf.Atan2(Mathf.Sqrt(1 - Mathf.Pow(e, 2)) * Mathf.Sin(E), Mathf.Cos(E) - e);
-    }
-
     // <summary>
     // Returns the Eccentric Anomaly as a float angle in radians.
     //     Param: M
@@ -104,7 +109,7 @@ public class Orbit : MonoBehaviour
     // <summary>
     public float E(float M, int k)
     {
-        float EAnomaly = M;
+        float EAnomaly = M + e * Mathf.Sin(M);
         for (int i = 0; i < k; i++)
         {
             EAnomaly = M + e * Mathf.Sin(EAnomaly);
@@ -121,7 +126,7 @@ public class Orbit : MonoBehaviour
     // <summary>
     public float M(float t)
     {
-        return (t - T) * Mathf.Sqrt(u / Mathf.Pow(a, 3));
+        return (t + T) * Mathf.Sqrt(u / Mathf.Pow(a, 3)) * Mathf.Deg2Rad;
     }
 
     public float time = 0;
@@ -129,7 +134,7 @@ public class Orbit : MonoBehaviour
     private void FixedUpdate()
     {
         this.transform.position = EvalPosition(time);
-        time += 0.0000001f;
+        time += 0.000001f;
     }
 
 
