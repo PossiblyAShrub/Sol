@@ -59,6 +59,11 @@ public class Orbit : MonoBehaviour
         float M = this.M(t);
         float E = this.E(M, EApproxLvl);
 
+        return EvalPositionByAnomaly(E);
+    }
+
+    public Vector3 EvalPositionByAnomaly(float E)
+    {
         // semi - minor axis
         float b = Mathf.Sqrt(((1 + e) * a) * ((1 - e) * a));
 
@@ -130,6 +135,20 @@ public class Orbit : MonoBehaviour
         return (t + T) * Mathf.Sqrt(u / Mathf.Pow(a, 3)) * Mathf.Deg2Rad;
     }
 
+    public Vector3[] OrbitPath()
+    {
+        Vector3[] orbitPath = new Vector3[61];
+
+        for (int i = 0; i <= 60; i++)
+        {
+            orbitPath[i] = EvalPositionByAnomaly(i * 6 * Mathf.Deg2Rad);
+        }
+
+        return orbitPath;
+    }
+
+    public LineRenderer orbitLine;
+
     public float time = 0;
     public float timeStep = 0.000001f;
 
@@ -137,6 +156,8 @@ public class Orbit : MonoBehaviour
     {
         this.transform.position = EvalPosition(time);
         time += timeStep;
+
+        orbitLine.SetPositions(OrbitPath());
     }
 
 
