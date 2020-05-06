@@ -110,7 +110,7 @@ public class Orbit : MonoBehaviour
     //     Param: M
     //            The Mean Anomaly, a float angle in degrees
     //     Param: k
-    //            The amount of times to approximate E - more approximations = more accuracy but less performance
+    //            The amount of times to approximate E => more approximations = more accuracy but less performance
     // <summary>
     public float E(float M, int k)
     {
