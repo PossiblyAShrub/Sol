@@ -44,6 +44,8 @@ public class Orbit : MonoBehaviour
     // <summary>
     public float T; // Time at perihelion
 
+    public GameObject satObj;
+
     public const float u = 3.986004418E14f; // std. gravitational parameter
 
     public int EApproxLvl;
@@ -64,24 +66,21 @@ public class Orbit : MonoBehaviour
 
     public Vector3 EvalPositionByAnomaly(float E)
     {
-        // semi - minor axis
-        float b = Mathf.Sqrt(((1 + e) * a) * ((1 - e) * a));
-
-        // adjust for w
-        E += w * Mathf.Deg2Rad;
-
         // planear coords
-        float x = a * Cos(E);
-        float y = b * Sin(E);
+        float px = a * (Cos(E) - e);
+        float py = a * Mathf.Sqrt(1 - Mathf.Pow(e, 2)) * Sin(E);
 
-        // apply inclination rotation (also creates z data)
-        x = x * CosD(i);
-        y = y * CosD(i);
-        float z = x * SinD(i);
+        // distance and true anomaly
+        float r = Mathf.Sqrt((px * px) + (py * py));
+        float v = Mathf.Atan2(py, px) * Mathf.Rad2Deg;
 
-        // apply longitude of the ascending node rotation (no new z axis data)
-        x = (x * CosD(N)) - (y * SinD(N));
-        y = (x * SinD(N)) + (y * CosD(N));
+        // convert to rect coords with steps:
+        //      1. Apply rotations (N), (w), (i)
+        //      2. Apply true anomaly (v)
+        //      3. Apply distance from primary center (r)
+        float x = r * (CosD(N) * CosD(v + w) - SinD(N) * SinD(v + w) * CosD(i));
+        float y = r * (SinD(N) * CosD(v + w) + CosD(N) * SinD(v + w) * CosD(i));
+        float z = r * SinD(v + w) * SinD(i);
 
         return new Vector3(x, z, y); // x, y, z vars are in diff. order to correct for unity's axis rotation
     }
